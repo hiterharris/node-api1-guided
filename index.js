@@ -33,7 +33,17 @@ server.post('/api/hubs', (req, res) => {
         })
 })
 
+server.delete('/api/hubs/:id', (req, res) => {
+    const {id} = req.params;
+    Hubs.remove(id)
+        .then(removed => {
+            res.status(200).json(removed);
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({errorMessage: 'POST error'});
+        })
+})
+
 const port = 5000;
 server.listen(port, () => console.log(`\n ** API listening on port ${port} **\n`));
-
-// npm run server
