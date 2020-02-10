@@ -4,6 +4,8 @@ const Hubs = require('./data/hubs-model');
 
 const server = express();
 
+server.use(express.json());
+
 server.get('/', (req, res) => {
     res.json({hello: 'Web 26'});
 })
@@ -15,7 +17,19 @@ server.get('/api/hubs', (req, res) => {
         })
         .catch(error => {
             console.log(error);
-            res.status(500).json({errorMessage: 'oops'});
+            res.status(500).json({errorMessage: 'GET error'});
+        })
+})
+
+server.post('/api/hubs', (req, res) => {
+    const hubInfo = req.body;
+    Hubs.add(hubInfo)
+        .then(hub => {
+            res.status(201).json(hub);
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({errorMessage: 'POST error'});
         })
 })
 
